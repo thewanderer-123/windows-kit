@@ -1,13 +1,3 @@
-protocol Maskable: RawRepresentable where RawValue: FixedWidthInteger {
-	static var mask: RawValue { get }
-}
-
-extension Maskable {
-	init?(masking rawValue: RawValue) {
-		self.init(rawValue: rawValue & Self.mask)
-	}
-}
-
 struct TypeAttributes {
 	enum Visibility: UInt32, Maskable {
 		static let mask: UInt32 = 0x00000007

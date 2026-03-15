@@ -1,3 +1,5 @@
+/// A coded index is an index into one of multiple possible tables
+///
 /// See ECMA-335 II.24.2.6, page 274
 protocol CodedIndexTag {
 	/// The number of bits used to encode the tag.
