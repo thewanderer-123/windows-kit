@@ -11,4 +11,5 @@ CustomMod (ECMA-335 page 291)
 Type (ECMA-335 page 289)
 
 below is the syntax diagram for fieldSig
-![FIELD----CustomMod...-----Type]{FieldSig_syntax_diagram.png}
+
+![FIELD----CustomMod...-----Type](./FieldSig_syntax_diagram.png)
