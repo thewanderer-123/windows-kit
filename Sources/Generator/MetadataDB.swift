@@ -18,14 +18,26 @@ class MetadataDB {
 		ranges = try data.withParserSpan { try parseWinMD(&$0) }
 	}
 
-	func withTableSpan<T>(for kind: TableKind, rowIndex: Int, _ body: (inout ParserSpan) throws -> T) throws -> T {
+	/// Parse one row of a table
+	func withRowSpan<T>(in table: TableKind, rowIndex: Int, _ body: (inout ParserSpan) throws -> T) throws -> T {
 		try data.withParserSpan { span in
-			guard let range = ranges.tables[kind.rawValue] else {
+			guard let range = ranges.tables[table.rawValue] else {
 				throw ParsingError()
 			}
 			try span.seek(toRange: range)
-			try span.seek(toRelativeOffset: ranges.strides[kind.rawValue] * rowIndex)
+			try span.seek(toRelativeOffset: ranges.strides[table.rawValue] * rowIndex)
 			return try body(&span)
+		}
+	}
+
+	/// Read from the string heap
+	func string(at offset: Int) throws -> String {
+		try data.withParserSpan { span in
+			guard let range = ranges.strings else {
+				throw ParsingError()
+			}
+			try span.seek(toRange: range)
+			return try String(parsingNulTerminated: &span)
 		}
 	}
 }
